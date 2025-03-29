@@ -39,8 +39,37 @@ void Grid::putMines(int n)
                 this->board[r][c].setMine(true);
                 
                 //todo: increment minesNearby for surrounding mines
-
+                countMines(r,c);
             }
+    }
+}
+void Grid::countMines(int row, int col)
+{
+    //Locations around tile
+    int rowOffset;
+    int colOffset;
+
+    /* Assuming bomb is in location [i][j]
+
+        [i-1][j-1]   [i-1][j]   [i-1][j+1]
+        [i][j-1]     [i][j]     [i][j+1]
+        [i+1][j-1]   [i+1][j]   [i+1][j+1]
+    */
+   //loops through tile offsets
+    for(int i = -1; i <= 1; i++)
+    {
+        for(int j = -1; j <= 1; j++)
+        {
+            //tiles surrounding bomb
+            rowOffset = row + i;
+            colOffset = col + j;
+
+            //Checks if bomb is at the edges or in corners, within range
+            if(rowOffset > -1 && rowOffset < this->rows && colOffset > -1 && colOffset < this->cols)
+            {
+                this->board[rowOffset][colOffset].incMine();
+            }
+        }
     }
 }
 
